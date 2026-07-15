@@ -1,0 +1,14 @@
+// Paste this into Firebase Console → Firestore Database → Rules,
+// then replace YOUR_ADMIN_EMAIL with your real admin login email.
+// This keeps the "users" collection (the buyer list) readable and
+// writable only by your admin account — buyers can't see or edit it.
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null
+                          && request.auth.token.email == "YOUR_ADMIN_EMAIL";
+    }
+  }
+}

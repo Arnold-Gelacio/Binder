@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>THE 8 in 1 — Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg:#12100d;
+    --bg-alt:#181510;
+    --paper:#1f1b16;
+    --paper-2:#241f19;
+    --ink:#e7ddc7;
+    --ink-dim:#a89c86;
+    --ink-faint:#6f6453;
+    --accent:#d8a94c;
+    --accent-dim:#8a6a34;
+    --rule:#3a3126;
+    --stamp:#a8453a;
+    --shadow: rgba(0,0,0,.45);
+    --nav-w: 280px;
+  }
+  html[data-theme="light"]{
+    --bg:#efe8d8;
+    --bg-alt:#e7dfcb;
+    --paper:#f7f2e4;
+    --paper-2:#efe7d4;
+    --ink:#2b241a;
+    --ink-dim:#5c5340;
+    --ink-faint:#8a8062;
+    --accent:#a06a1e;
+    --accent-dim:#c99648;
+    --rule:#cfc4a4;
+    --stamp:#93332a;
+    --shadow: rgba(60,50,30,.18);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Lora', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+    font-size:var(--reading-size, 17px);
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ============ SIDE NAV ============ */
+  .sidenav{
+    position:fixed;
+    top:0; left:0; bottom:0;
+    width:var(--nav-w);
+    background:var(--bg-alt);
+    border-right:1px solid var(--rule);
+    display:flex;
+    flex-direction:column;
+    z-index:100;
+    transition:transform .35s cubic-bezier(.4,0,.2,1), background .3s ease, border-color .3s ease;
+  }
+  .brand{
+    padding:26px 22px 18px;
+    border-bottom:1px dashed var(--rule);
+  }
+  .brand .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.18em;
+    color:var(--accent);
+    text-transform:uppercase;
+  }
+  .brand h1{
+    font-family:'Special Elite', monospace;
+    font-size:22px;
+    line-height:1.25;
+    margin:8px 0 6px;
+    letter-spacing:.02em;
+    color:var(--ink);
+  }
+  .brand p{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ink-faint);
+    margin:0;
+    line-height:1.6;
+  }
+
+  .tabs{
+    flex:1;
+    overflow-y:auto;
+    padding:10px 0 10px;
+  }
+  .tabs::-webkit-scrollbar{width:6px;}
+  .tabs::-webkit-scrollbar-thumb{background:var(--rule); border-radius:3px;}
+
+  .tab{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:11px 22px;
+    color:var(--ink-dim);
+    text-decoration:none;
+    cursor:pointer;
+    border-left:3px solid transparent;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:.02em;
+    transition:background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .tab .num{
+    color:var(--ink-faint);
+    font-weight:600;
+    flex-shrink:0;
+  }
+  .tab .lbl{
+    font-family:'Lora', serif;
+    font-size:13.5px;
+    line-height:1.3;
+  }
+  .tab:hover{
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .tab.active{
+    background:var(--paper);
+    color:var(--accent);
+    border-left-color:var(--accent);
+  }
+  .tab.active .num{ color:var(--accent); }
+
+  .tab-group-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    padding:16px 22px 6px;
+  }
+
+  .nav-controls{
+    padding:16px 22px 22px;
+    border-top:1px dashed var(--rule);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .ctrl-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .ctrl-buttons{ display:flex; gap:6px; }
+  .ctrl-buttons button{
+    width:28px; height:28px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    cursor:pointer;
+    border-radius:2px;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .ctrl-buttons button:hover{ border-color:var(--accent); color:var(--accent); }
+
+  .theme-switch{
+    display:flex;
+    border:1px solid var(--rule);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .theme-switch button{
+    flex:1;
+    padding:6px 0;
+    background:var(--paper);
+    border:none;
+    color:var(--ink-faint);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.08em;
+    cursor:pointer;
+    text-transform:uppercase;
+  }
+  .theme-switch button.on{
+    background:var(--accent);
+    color:#14110c;
+  }
+
+  /* ============ MOBILE NAV TOGGLE ============ */
+  .nav-toggle{
+    position:fixed;
+    top:16px; left:16px;
+    z-index:200;
+    width:42px; height:42px;
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:3px;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:4px;
+    cursor:pointer;
+    box-shadow:0 4px 14px var(--shadow);
+  }
+  .nav-toggle span{
+    width:18px; height:2px;
+    background:var(--ink);
+    display:block;
+  }
+  .nav-scrim{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:99;
+  }
+
+  /* ============ MAIN ============ */
+  main{
+    margin-left:var(--nav-w);
+    max-width:760px;
+    padding:64px 56px 140px;
+  }
+
+  .cover{
+    padding-bottom:56px;
+    margin-bottom:56px;
+    border-bottom:1px dashed var(--rule);
+  }
+  .cover .stamp{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--stamp);
+    border:1px solid var(--stamp);
+    padding:4px 10px;
+    border-radius:2px;
+    margin-bottom:22px;
+    transform:rotate(-1.5deg);
+  }
+  .cover h1{
+    font-family:'Special Elite', monospace;
+    font-size:38px;
+    line-height:1.22;
+    margin:0 0 18px;
+  }
+  .cover .lede{
+    color:var(--ink-dim);
+    font-size:17px;
+    line-height:1.75;
+    max-width:56ch;
+  }
+  .cover .index-list{
+    margin-top:34px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--ink-faint);
+    line-height:2.1;
+  }
+  .cover .index-list a{ color:var(--ink-dim); text-decoration:none; border-bottom:1px dotted var(--rule); }
+  .cover .index-list a:hover{ color:var(--accent); border-color:var(--accent); }
+  .cover .index-list .n{ color:var(--accent); margin-right:10px; }
+
+  section.doc{
+    padding-bottom:70px;
+    margin-bottom:70px;
+    border-bottom:1px dashed var(--rule);
+    scroll-margin-top:40px;
+  }
+  section.doc:last-of-type{ border-bottom:none; }
+
+  .doc-head{ margin-bottom:36px; }
+  .doc-head .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:block;
+    margin-bottom:10px;
+  }
+  .doc-head h2{
+    font-family:'Special Elite', monospace;
+    font-size:28px;
+    line-height:1.3;
+    margin:0 0 10px;
+  }
+  .doc-head .sub{
+    color:var(--ink-dim);
+    font-style:italic;
+    font-size:15.5px;
+    margin:0;
+  }
+
+  .doc h3{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:38px 0 14px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--rule);
+  }
+  .doc h4{
+    font-family:'Lora', serif;
+    font-weight:600;
+    font-size:16.5px;
+    margin:22px 0 8px;
+    color:var(--ink);
+  }
+  .doc p{
+    line-height:1.85;
+    margin:0 0 16px;
+    color:var(--ink);
+  }
+  .doc ul, .doc ol{
+    margin:0 0 18px;
+    padding-left:22px;
+    line-height:1.8;
+  }
+  .doc li{ margin-bottom:7px; }
+  .doc li::marker{ color:var(--accent); }
+  .doc strong{ color:var(--ink); font-weight:600; }
+  .doc em{ color:var(--ink-dim); }
+
+  .callout{
+    background:var(--paper);
+    border-left:3px solid var(--accent);
+    padding:16px 20px;
+    margin:22px 0;
+    border-radius:0 3px 3px 0;
+  }
+  .callout.warn{ border-left-color:var(--stamp); }
+  .callout p:last-child{ margin-bottom:0; }
+  .callout .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:block;
+    margin-bottom:8px;
+  }
+  .callout.warn .tag{ color:var(--stamp); }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0 26px;
+    font-size:14.5px;
+  }
+  th, td{
+    text-align:left;
+    padding:10px 12px;
+    border-bottom:1px solid var(--rule);
+    vertical-align:top;
+    line-height:1.55;
+  }
+  th{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:500;
+  }
+
+  .step-grid{
+    display:grid;
+    gap:14px;
+    margin:20px 0 28px;
+  }
+  .step{
+    display:grid;
+    grid-template-columns:34px 1fr;
+    gap:14px;
+    align-items:start;
+  }
+  .step .idx{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--accent);
+    font-size:14px;
+    border:1px solid var(--rule);
+    border-radius:50%;
+    width:30px; height:30px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .step .body p{ margin:0 0 4px; }
+  .step .body h4{ margin:0 0 6px; font-size:15px; }
+
+  .formula{
+    font-family:'IBM Plex Mono', monospace;
+    background:var(--paper);
+    padding:14px 18px;
+    border-radius:3px;
+    color:var(--accent);
+    font-size:13.5px;
+    margin:18px 0;
+    display:inline-block;
+  }
+
+  .divider-tear{
+    text-align:center;
+    color:var(--ink-faint);
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:.3em;
+    font-size:11px;
+    margin:34px 0;
+  }
+
+  footer.end{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ink-faint);
+    text-align:center;
+    letter-spacing:.1em;
+    padding-top:20px;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 880px){
+    main{ max-width:100%; padding:88px 24px 100px; }
+  }
+
+  @media (max-width: 760px){
+    .sidenav{
+      transform:translateX(-100%);
+      width:82%;
+      max-width:320px;
+      box-shadow:0 0 40px var(--shadow);
+    }
+    .sidenav.open{ transform:translateX(0); }
+    .nav-toggle{ display:flex; }
+    body.nav-open .nav-scrim{ display:block; }
+    main{ margin-left:0; }
+    .cover h1{ font-size:29px; }
+    .doc-head h2{ font-size:23px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="nav-toggle" id="navToggle" aria-label="Open contents">
+  <span></span><span></span><span></span>
+</button>
+<div class="nav-scrim" id="navScrim"></div>
+
+<aside class="sidenav" id="sidenav">
+  <div class="brand">
+    <span class="kicker">Blueprints</span>
+    <h1>The 8 in 1 Playbook</h1>
+    <p>Growth &amp; account-warming notes, Tools, collected in one place.</p>
+  </div>
+
+  <nav class="tabs" id="tabs">
+    <a href="#cover" class="tab" data-target="cover"><span class="num">00</span><span class="lbl">Contents</span></a>
+
+    <div class="tab-group-label">Short-Form / Reels</div>
+    <a href="#doc-warmup" class="tab" data-target="doc-warmup"><span class="num">01</span><span class="lbl">Tiktok — Warmup</span></a>
+    <a href="#doc-igscale" class="tab" data-target="doc-igscale"><span class="num">02</span><span class="lbl">Instagram Warmup</span></a>
+
+    <div class="tab-group-label">YouTube</div>
+    <a href="#doc-ytgrowth" class="tab" data-target="doc-ytgrowth"><span class="num">03</span><span class="lbl">YouTube Growth Blueprint</span></a>
+    <a href="#doc-ytauto" class="tab" data-target="doc-ytauto"><span class="num">04</span><span class="lbl">YouTube Automation Blueprint</span></a>
+    <a href="#doc-ranking" class="tab" data-target="doc-ranking"><span class="num">05</span><span class="lbl">Ranking Video Strategy</span></a>
+
+    <div class="tab-group-label">Tool</div>
+    <a href="#doc-writing" class="tab" data-target="doc-writing"><span class="num">06</span><span class="lbl">Tiktok Tool</span></a>
+    <a href="#youtube-writing" class="tab" data-target="youtube-writing"><span class="num">07</span><span class="lbl">Youtube Tool</span></a>
+    <a href="#doc-proxyvpn" class="tab" data-target="doc-ytgrowth"><span class="num">08</span><span class="lbl">iProxy and NordVPN</span></a>
+  </nav>
+
+  <div class="nav-controls">
+    <div class="ctrl-row">
+      <span>Text size</span>
+      <div class="ctrl-buttons">
+        <button id="fontDown">A−</button>
+        <button id="fontUp">A+</button>
+      </div>
+    </div>
+    <div class="ctrl-row">
+      <span>Mode</span>
+    </div>
+    <div class="theme-switch">
+      <button id="modeDark" class="on">Night</button>
+      <button id="modeLight">Day</button>
+    </div>
+  </div>
+</aside>
+
+<main>
+
+  <section class="cover" id="cover">
+    <span class="stamp">Everything You Need To Know</span>
+    <h1>The 8 in 1 Playbook</h1>
+    <p class="lede">A collection of the growth playbooks, warm-up protocols, and posting systems you've been holding onto — reformatted into one. Sevem documents, tabbed on the left.</p>
+    <div class="index-list">
+      <div><span class="n">01</span><a href="#doc-warmup">Tiktok — Warmup </a></div>
+      <div><span class="n">02</span><a href="#doc-igscale">Instagram Warmup </a></div>
+      <div><span class="n">03</span><a href="#doc-ytgrowth">The YouTube Growth Blueprint</a></div>
+      <div><span class="n">04</span><a href="#doc-ytauto">The YouTube Automation Blueprint</a></div>
+      <div><span class="n">05</span><a href="#doc-ranking">Ranking Strategy</a></div>
+      <div><span class="n">06</span><a href="#doc-writing">Tiktok Tool</a></div>
+      <div><span class="n">07</span><a href="#youtube-writing">Youtube Tool</a></div>
+      <div><span class="n">08</span><a href="#doc-proxyvpn">iProxy and NordVPN</a></div>
+    </div>
+  </section>
+
+  <!-- 01 ============================================ -->
+  <section class="doc" id="doc-warmup">
+    <div class="doc-head">
+      <span class="eyebrow">01 — Short-Form / FYP</span>
+      <h2>Tiktok<br>Warmup</h2>
+      <p class="sub">A 3-day protocol for a brand-new account, before the first real post goes up.</p>
+    </div>
+
+    <p>Applies to TikTok. This platforms treat a new account as a likely bot until it proves otherwise — skip the warmup and the usual result is a shadowban or the well-known "200-view jail." </p>
+
+    <h3>Setup, before Day 1</h3>
+    <ul>
+      <li>Complete the profile 100%: a real profile photo (not stock or a meme), a filled-out bio, a username relevant to the niche</li>
+      <li>Enable two-factor authentication, use a valid email</li>
+      <li>No link in the bio yet</li>
+      <li>Post from the mobile app only for the first 10+ posts — no web uploads, no scheduling tools, no API</li>
+    </ul>
+
+    <div class="callout warn">
+      <span class="tag">Auto-flags to avoid</span>
+      <ul style="margin-bottom:0">
+        <li>Posting within 24 hours of account creation</li>
+        <li>A link in the bio on day one</li>
+        <li>Mass follow / unfollow</li>
+        <li>Engaging in only one narrow niche — mix in adjacent content so the pattern reads as human</li>
+        <li>Posting multiple times before any engagement comes in</li>
+        <li>Following everyone who follows back</li>
+        <li>Comment strings that are just emojis — real words only</li>
+      </ul>
+    </div>
+
+    <h3>Day 1 — Pure scroll</h3>
+    <ul>
+      <li>30+ minutes on the FYP (TikTok)</li>
+      <li>Watch videos all the way through — no skipping in a repetitive pattern</li>
+      <li>Like 15–20 videos in the niche, spread out rather than in rapid succession</li>
+      <li>Leave 3-5 genuine comments — real words, not emojis</li>
+      <li>Follow 1-2 accounts in the niche</li>
+      <li>Save 2–3 videos actually worth saving, as a signal of real interest</li>
+      <li>No posting. No links.</li>
+    </ul>
+
+    <h3>Day 2 — Train the algorithm</h3>
+    <ul>
+      <li>Repeat the Day 1 engagement pattern</li>
+      <li>Search niche keywords directly in the search bar</li>
+      <li>Watch 10+ niche videos all the way through</li>
+      <li>Still no posting, still no links</li>
+    </ul>
+
+    <h3>Day 3 — Drop one warmup post</h3>
+    <ul>
+      <li>Not promotional — niche content only</li>
+      <li>A trending sound from the last 7 days (TikTok)</li>
+      <li>Unique footage — no duplicates, no recycled clips</li>
+      <li>You should see a niche video on your first feed, if not continue day 2</li>
+      <li>Post from the mobile app</li>
+      <li>Wait 24 hours and watch how the views land</li>
+    </ul>
+
+    <div class="callout">
+      <span class="tag">The test</span>
+      <p>1K+ views on that first post means the account is cleared to post freely.</p>
+    </div>
+
+    <h3>After warmup</h3>
+    <ul>
+      <li>Keep 5–10 minutes of daily niche engagement going — likes, comments, watches</li>
+      <li>The first 10 posts should still go through the mobile app, not web or a scheduler</li>
+      <li>Add the bio link only once views are landing consistently</li>
+    </ul>
+  </section>
+
+  <!-- 02 ============================================ -->
+  <section class="doc" id="doc-igscale">
+    <div class="doc-head">
+      <span class="eyebrow">02 — Short-Form / Reels</span>
+      <h2>Instagram Warmup</h2>
+      <p class="sub">A nine-phase system for creating, warming, and posting an Instagram Reels account aimed at a US audience.</p>
+    </div>
+
+    <h3>Phase 1 — Account creation</h3>
+    <p><strong>Email setup:</strong> use a fresh Gmail or Outlook account. Don't create accounts in bulk — a maximum of two on the first day, then a two-day wait before creating another, repeating that pacing going forward.</p>
+    <p><strong>Initial setup:</strong> set the name, username, and profile picture immediately during creation; leave the bio empty for now.</p>
+    <p><strong>The five-minute rule:</strong> leave the account completely idle for five minutes right after creation — no interactions, no edits.</p>
+
+    <h3>Phase 2 — Initial warm-up (algorithm training)</h3>
+    <p>After the five minutes, start watching Reels and engaging naturally — avoid spam-liking.</p>
+    <p><strong>Keyword targeting</strong> — search USA-based niche terms directly: Polymarket, trading, wealth, make money, clipping.</p>
+    <p><strong>Content filtering:</strong> watch only English-language content, and immediately mark irrelevant or local content as "Not Interested" so the feed converges toward roughly 90% niche-related, USA/English content.</p>
+    <p><strong>Duration:</strong> 20–30 minutes total; one day is enough for this phase. Like, save, and interact naturally throughout.</p>
+
+    <h3>Phase 3 — Professional optimization</h3>
+    <p>Switch the account to Creator/Professional. Complete every dashboard checkmark, and add a bio and links if needed — but don't keep revising bio or settings; set it once or twice, maximum.</p>
+    <p><strong>Deep warm-up:</strong> keep liking, saving, and following niche accounts, spreading the actions across time rather than rushing them.</p>
+
+    <h3>Phase 4 — Technical setup</h3>
+    <ul>
+      <li>Resolution: 1080p</li>
+      <li>Frame rate: 30 FPS strictly — avoid 60 FPS on Instagram</li>
+      <li>Enable "Upload at Highest Quality"</li>
+      <li>Enable "Translate Reel"</li>
+    </ul>
+
+    <h3>Phase 5 — Audio optimization</h3>
+    <p>Use a song from Instagram's own music library, keeping original audio at 100% and layering background music low underneath. The logic: Instagram prioritizes content that uses its own native features.</p>
+
+    <h3>Phase 6 — Caption strategy</h3>
+    <p>Option A leans on AI-generated captions — detailed, keyword-rich, and context-based — for authority-building and stable reach. The idea is that a long, specific, on-topic caption acts as metadata: it helps the platform read content context, audience targeting, and distribution signals, which in turn helps push a well-edited clip further.</p>
+    <div class="callout warn">
+      <span class="tag">Strict guideline</span>
+      <p>Avoid spam-style captions — irrelevant keyword stuffing or generic viral formats unrelated to the actual post. These read as low-quality or spam signals rather than genuine metadata.</p>
+    </div>
+
+    <h3>Phase 7 — Audience targeting</h3>
+    <p>Set a minimum age filter on traffic from lower-CPM regions, with the intent of filtering out low-value traffic and pushing distribution toward a higher-value US audience.</p>
+
+    <h3>Phase 8 — Posting strategy</h3>
+    <p>Post after 1:30 PM EDT (1:30 AM PHT)to land inside US peak hours. Run five reels per session, with a 10-minute gap between each upload.</p>
+
+    <h3>Phase 9 — Scaling logic</h3>
+    <p>Expect roughly 2K–5K views per reel within the first 24 hours on a new account. If an account clears 20K+ views within a week, scale it further; if it doesn't, rotate to a fresh account instead.</p>
+
+    <h3>Execution checklist</h3>
+    <ul>
+      <li>Feed is ~90% USA niche content</li>
+      <li>Video specs: 1080p, 30 FPS</li>
+      <li>Highest-quality upload enabled</li>
+      <li>IG music added, audio balanced</li>
+      <li>Caption applied (AI SEO style)</li>
+      <li>Minimum age filter set</li>
+      <li>Posting after 1:30 PM EDT - 1:30 PHT</li>
+      <li>Five reels uploaded, 10-minute gaps</li>
+    </ul>
+  </section>
+
+  
+
+  
+
+  
+
+  <!-- 03 ============================================ -->
+  <section class="doc" id="doc-ytgrowth">
+    <div class="doc-head">
+      <span class="eyebrow">03 — YouTube</span>
+      <h2>The YouTube Growth Blueprint</h2>
+      <p class="sub">2026 creator guide — how the algorithm actually tests a video, and how to set a channel up around that.</p>
+    </div>
+
+    <h3>How the algorithm works now</h3>
+    <p>Subscriber count matters less than the reaction a video gets right now. On upload, a small preview audience sees it first (a CTR test); if they click and stay to watch (a retention test), it gets pushed to a progressively larger audience. A brand-new channel has the same shot at going viral overnight as an established one.</p>
+    <p class="formula" style="display:block; width:fit-content;">Upload → small preview group (CTR test) → viewers stay (retention test) → wider push</p>
+
+    <h3>Channel setup — the first 72 hours</h3>
+    <div class="callout warn">
+      <span class="tag">Warning</span>
+      <p>Don't upload a batch of videos on day one — it reads as a spam account and can flag distribution before the channel even gets going.</p>
+    </div>
+    <p>Spend the first three days using the account like a normal viewer: 30–60 minutes a day watching videos in the target niche, liking and leaving real comments, and building a couple of clean public playlists around the topic. This teaches the platform what the channel is about before it has to guess from a first upload.</p>
+
+     <h3>Day 1 — Pure scroll</h3>
+    <ul>
+      <li>Do not make a channel, just scroll</li>
+      <li>30+ minutes on Shorts</li>
+      <li>Watch niche videos all the way through — no skipping in a repetitive pattern</li>
+      <li>Like 15–20 videos in the niche, spread out rather than in rapid succession</li>
+      <li>Follow 1-2 accounts in the niche</li>
+      <li>Save 2–3 videos actually worth saving, as a signal of real interest</li>
+      <li>No posting. No links.</li>
+    </ul>
+
+    <h3>Day 2 — Train the algorithm</h3>
+    <ul>
+      <li>Repeat the Day 1 engagement pattern</li>
+      <li>Search niche keywords directly in the search bar</li>
+      <li>Watch 10+ niche videos all the way through</li>
+      <li>Still no posting, still no links</li>
+    </ul>
+
+    <h3>Day 3 — Channel Creation</h3>
+    <ul>
+      <li>Scroll for 20m then create a channel</li>
+      <li>Setup name and bio</li>
+      <li>Scroll niche videos for 30m</li>
+      <li>Search niche keywords</li>
+      <li>Verify number for trust score</li>
+      <li>No posting, input link if needed</li>
+    </ul>
+
+    <h3>Day 4 — Drop one warmup post</h3>
+    <ul>
+      <li>Not promotional — niche content only</li>
+      <li>You should see a niche video on your first feed, if not continue scrolling on niche video</li>
+      <li>Open Youtube Studio to check analytics</li>
+      <li>Post from the mobile app</li>
+      <li>Wait 24 hours and watch how the views land</li>
+    </ul>
+
+    <h3>Profile — the storefront</h3>
+    <table>
+      <tr><th>Element</th><th>The rule</th><th>Why</th></tr>
+      <tr><td>Handle</td><td>Short, clean, easy to spell — no random numbers</td><td>Looks professional and is memorable in comments</td></tr>
+      <tr><td>Profile picture</td><td>Clean, bright, high-contrast, close-up</td><td>Needs to read clearly at thumbnail size on a phone</td></tr>
+      <tr><td>Banner</td><td>One clear sentence about what the channel makes</td><td>A new visitor should understand the value in under two seconds</td></tr>
+    </table>
+
+    <h3>Shorts — getting discovered fast</h3>
+    <ul>
+      <li><strong>One niche only</strong> — mixing topics confuses the recommendation system about who to show the channel to</li>
+      <li><strong>15–35 seconds</strong> — short enough that most people watch to the end</li>
+      <li><strong>Avoid copyrighted music </strong> that is longer than 60s - Auto Restrict</li>
+      <li><strong>The 2-second hook</strong> — no intro, no logo animation, no "hey guys" — open on the actual hook line</li>
+    </ul>
+
+    <h3>Editing mechanics</h3>
+    <ol>
+      <li><strong>Cut the silence</strong> — remove every pause and slow transition, keep the audio continuous</li>
+      <li><strong>Change the screen every 2 seconds</strong> — a zoom, a bold on-screen word, or a visual change to hold attention</li>
+      <li><strong>The infinite loop trick</strong> — write the last line so it flows back into the first, so people rewatch without noticing</li>
+    </ol>
+
+    <h3>Long-form — building a real audience</h3>
+    <p>Center long videos around a concrete challenge or goal rather than passive gameplay or talking — a defined stake gives people a reason to stay to the end. Sweet spot for length: 8–16 minutes. The intended funnel: Shorts bring in new eyes fast, long-form turns those casual viewers into a loyal audience.</p>
+
+    <h3>Packaging — titles and thumbnails</h3>
+    <p><strong>Thumbnail:</strong> 2–3 elements max, high contrast, legible in a single glance while scrolling.</p>
+    <p><strong>Title:</strong> skip sequential episode numbers in favor of a question or unresolved mystery, and don't give away the answer in the title — the payoff needs to stay inside the video.</p>
+
+    <h3>Upload schedule</h3>
+    <ul>
+      <li>Shorts: 2–5 a day, spaced at least 3 hours apart</li>
+      <li>Long-form: 1–3 a week</li>
+      <li>Target upload window: local morning (7–10 AM PHT) lines up with US evening leisure hours (7–10 PM EST)</li>
+    </ul>
+
+    <h3>Troubleshooting by the numbers</h3>
+    <table>
+      <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+      <tr><td>Drop-off in the first 3 seconds</td><td>Intro is too slow or doesn't match the thumbnail's promise</td><td>Cut greetings and dead space; start on the action</td></tr>
+      <tr><td>Low click-through rate (under 4%)</td><td>Title/thumbnail look busy or unclear</td><td>Simplify the thumbnail, make the title more of an open question</td></tr>
+      <tr><td>Gradual view decline mid-video</td><td>Middle section runs repetitive or loses its goal</td><td>Tighten edits; add unexpected beats every few seconds</td></tr>
+    </table>
+
+    <h3>The snowball effect</h3>
+    <p>Low early views are normal — it takes time for the system to learn what a channel makes and who wants to see it. Growth tends to arrive in a jump rather than a straight line: one video breaks through, and the algorithm cycles those new viewers back through the rest of the catalog.</p>
+  </section>
+
+  <!-- 04 ============================================ -->
+  <section class="doc" id="doc-ytauto">
+    <div class="doc-head">
+      <span class="eyebrow">04 — YouTube</span>
+      <h2>The YouTube Automation Blueprint</h2>
+      <p class="sub">Building a faceless channel end to end — setup, niche, AI-assisted production, upload optimization, growth, and eventually outsourcing the whole workflow.</p>
+    </div>
+
+    <p>The premise: run a channel where scripting, voiceover, editing, and thumbnails are delegated or AI-assisted, without appearing on camera. Automation here doesn't mean no work — it means using tools and systems to produce at a pace a single person filming themselves couldn't match.</p>
+
+    <h3>Chapter 1 — Setting up the channel</h3>
+    <div class="step-grid">
+      <div class="step"><div class="idx">1</div><div class="body"><h4>Use a trusted Google account</h4><p>An account with existing watch history and activity reads as a real person, not a fresh burner.</p></div></div>
+      <div class="step"><div class="idx">2</div><div class="body"><h4>Create a brand channel</h4><p>Rather than a personal one — allows adding editors later and keeps it separate from a personal account.</p></div></div>
+      <div class="step"><div class="idx">3</div><div class="body"><h4>Complete the profile</h4><p>A clean picture, a banner that represents the niche, and a keyword-rich description with any relevant links.</p></div></div>
+      <div class="step"><div class="idx">4</div><div class="body"><h4>Verify with a phone number</h4><p>Unlocks custom thumbnails, longer videos, and higher daily upload limits — skipping it caps the channel's credibility.</p></div></div>
+      <div class="step"><div class="idx">5</div><div class="body"><h4>Watch, like, comment first</h4><p>Engaging like a normal viewer before uploading anything establishes the account as active and human.</p></div></div>
+      <div class="step"><div class="idx">6</div><div class="body"><h4>Avoid VPNs / constant IP changes</h4><p>Frequent location spoofing on a new channel reads as suspicious; stick to one stable, residential connection.</p></div></div>
+      <div class="step"><div class="idx">7</div><div class="body"><h4>Start slow</h4><p>1–2 videos a day, consistent for 1–2 weeks, on one topic for at least 30–60 days before scaling up.</p></div></div>
+    </div>
+
+    <h3>Chapter 2 — Choosing a profitable niche</h3>
+    <p>The core mistake new automation channels make is posting about everything. A good niche clears three bars: high demand (people actively search it, viral videos already exist in it), evergreen potential (50+ video ideas, stays relevant over time), and monetization potential (ad revenue, affiliate, sponsorship room, with other creators already earning in it).</p>
+    <table>
+      <tr><th>Niche</th><th>Why it works</th></tr>
+      <tr><td>Motivation</td><td>Evergreen, highly shareable</td></tr>
+      <tr><td>Celebrity &amp; drama recaps</td><td>Always trending</td></tr>
+      <tr><td>Personal finance</td><td>High ad rates</td></tr>
+      <tr><td>Gaming highlights</td><td>Viral potential, fast-paced</td></tr>
+      <tr><td>Top 10 / facts</td><td>Easy to script and produce at volume</td></tr>
+      <tr><td>Health &amp; fitness</td><td>Affiliate-friendly, repeatable</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="tag">Niches to avoid without experience</span>
+      <p>Kids' content (heavily restricted, hard to monetize), controversial or political topics (demonetization risk), reposted TV/film content (copyright risk), and oversaturated general categories like plain vlogs.</p>
+    </div>
+
+    <h3>Chapter 3 — Sourcing &amp; creating content</h3>
+    <p>Idea generation leans on the platform's own search autocomplete, the trending tab, and a simple prompt asking a language model for niche-specific short-form ideas. A script follows a fixed three-beat structure: a hook in the first three seconds, the value or story in the middle, and a direct call to action at the end. Voiceover can be recorded or generated with text-to-speech tools; footage comes from royalty-free stock libraries or, where fair use commentary applies, source clips reworked with edits, voiceover, and added context.</p>
+    <p>Editing basics: cut dead air, add sound effects, insert subtitles (most people watch muted, so subtitles are a major watch-time lever), and keep the aspect ratio vertical for Shorts.</p>
+
+    <h3>Chapter 4 — Uploading &amp; optimizing</h3>
+    <div class="step-grid">
+      <div class="step"><div class="idx">1</div><div class="body"><h4>Right format</h4><p>9:16 vertical, under 60 seconds, at least 720p, with a keyword-bearing filename.</p></div></div>
+      <div class="step"><div class="idx">2</div><div class="body"><h4>Scroll-stopping title</h4><p>Hook + emotion + keyword, capitalized on key words, ideally under 50 characters.</p></div></div>
+      <div class="step"><div class="idx">3</div><div class="body"><h4>Keyword-rich description</h4><p>The main keyword and a clear call to action in the first two or three lines, since that's what shows in search.</p></div></div>
+      <div class="step"><div class="idx">4</div><div class="body"><h4>Relevant tags</h4><p>Still useful for topic classification even though their ranking weight has dropped over time.</p></div></div>
+      <div class="step"><div class="idx">5</div><div class="body"><h4>Right settings</h4><p>Public visibility, correct made-for-kids setting, vertical framing confirmed, and added to a themed playlist.</p></div></div>
+    </div>
+
+    <h3>Chapter 5 — Growing &amp; monetizing</h3>
+    <p>Growth levers: consistency (ideally daily), a strong first three seconds, regularly checking analytics for watch time and retention drop-off, reverse-engineering what's already working in the niche, and replying to early comments to boost engagement.</p>
+    <p>Monetization paths beyond the standard Partner Program threshold (1,000 subscribers and 4,000 watch hours, or 10M Shorts views in 90 days): affiliate links through networks like Amazon Associates, selling digital products such as ebooks or templates, and direct sponsorships once a video is consistently clearing a few thousand views.</p>
+
+    <h3>Chapter 6 — Full automation &amp; scaling</h3>
+    <p>Once a channel is producing consistent views, the workflow itself can be delegated: a scriptwriter, an editor, and optionally a voiceover artist, coordinated through a simple free stack (Trello or Notion for tracking, Google Drive for assets, Sheets for performance). Once the system runs smoothly on one channel, it can be duplicated into a second niche or language rather than rebuilt from scratch.</p>
+
+    <div class="divider-tear">· · ·</div>
+    
+  </section>
+
+  <!-- 05 ============================================ -->
+  <section class="doc" id="doc-ranking">
+    <div class="doc-head">
+      <span class="eyebrow">05 — YouTube</span>
+      <h2>Ranking Strategy</h2>
+      <p class="sub">A format breakdown for countdown / ranking-style videos — clip selection, hook, order, and retention editing.</p>
+    </div>
+
+    <h3>Step 1 — Clip selection</h3>
+    <p>Priority goes to before-and-after clips. They create natural suspense — the viewer wants to see the result, so they stay to the end.</p>
+
+    <h3>Step 2 — The hook</h3>
+    <div class="formula" style="display:block; width:fit-content;">"This is the best [TOPIC] ever made — because number 5 literally shocked me."</div>
+    <p>It works in two parts: "this is the best" grabs attention immediately, and calling out that a specific rank shocked the narrator builds instant curiosity — giving the viewer a reason to stay before the video has even really started.</p>
+
+    <h3>Step 3 — The ranking order</h3>
+    <p>Order runs 5 → 4 → 3 → 2 → 1. The strongest clips open at 5, 4, and 3 to keep people watching early; the weakest clip sits at 2 but stays short so retention doesn't dip; number 1 is the single most satisfying clip, saved to close the video on a real payoff. Satisfaction is the priority — give a genuine ending, not a tease.</p>
+
+    <h3>Step 4 — Drive comments, not bait</h3>
+    <p>Instead of comment-bait, prompt a genuine reaction through the voiceover or text overlay — something like asking which one was the viewer's favorite. The goal is involvement, not a trick: a viewer who comments is one who stayed satisfied.</p>
+
+    <h3>Step 5 — Retention editing</h3>
+    <ul>
+      <li>Keep individual clips to 5–6 seconds max</li>
+      <li>For before/after clips, show the result and cut almost immediately — it creates a natural urge to rewatch</li>
+      <li>If a clip has no before/after arc, keep it short and fill the gap with commentary</li>
+      <li>Keep the rank number clearly on-screen at all times — confusion is what makes people swipe away</li>
+    </ul>
+
+    <h3>Mastering the niche</h3>
+    <ol>
+      <li><strong>The curiosity gap:</strong> the first three seconds decide everything — a strong verbal hook forces the viewer to stay to see if the payoff is real.</li>
+      <li><strong>Double down:</strong> once a topic is proven, turn it into a numbered series so the audience comes back knowing this account is the go-to for that content.</li>
+      <li><strong>Visual clarity is non-negotiable:</strong> if the current rank isn't obvious at a glance, viewers swipe away.</li>
+      <li><strong>Beat the mid-video drop:</strong> a secondary teaser midway ("number 1 is still coming") keeps tension alive through the middle.</li>
+      <li><strong>End strong, every time:</strong> the closing clip should be the most rewarding moment in the video — that's what drives shares and rewatches.</li>
+    </ol>
+  </section>
+
+  <!-- 06 ============================================ -->
+  <section class="doc" id="doc-writing">
+    <div class="doc-head">
+      <span class="eyebrow">06 — Tool</span>
+      <h2>Tiktok Editor Tool</h2>
+      <p class="sub">A guide to using the analytics editor for optimizing video content.</p>
+    </div>
+
+    <h3>Guide</h3>
+    <p>Step-by-step guides for both the TikTok and YouTube Studio analytics editors — learn how to customize every number, graph, and label.</p>
+
+    <h3>WARNING</h3>
+    <p><strong>Do not share</strong> this tool to mass people. If moderator finds out this tool, they will take action.</p>
+    <p><strong>Ony use this tool</strong> when audience requirements did not reach. Do not fake your views.</p>
+    <p><strong>Fake Views</strong> = Banned in campaigns</p>
+
+    <h3>What this tool does</h3>
+    <ul>
+      <li><strong>Edit any number</strong> — Tap any stat — views, likes, followers, watch time — and type your real values directly.</li>
+      <li><strong>Draggleable Graphs</strong> — Drag chart points up or down to reshape your views, retention, and likes curves.</li>
+      <li><strong>Set Thumbnail</strong> — Upload your actual video thumbnail — it appears across all three tab previews automatically.</li>
+      <li><strong>Edit Audience Data</strong> — Update gender %, age brackets, location bars, traffic sources, and search queries.</li>
+    </ul>
+
+    <h3>Overview Tab (explore the tool to fully maximize it)</h3>
+    <ul>
+      <li><strong>Set your Thumbnail</strong> — At the top, tap the video thumbnail card. A file picker opens, choose your video's thumbnail from your device. It updates everywhere on the screen automatically.</li>
+      <li><strong>Edit the top stats bar</strong> — Just below the thumbnail you'll see a row with Views, Likes, Comments, Shares, and Saves. Tap any number and type your real value. Press Enter or tap elsewhere to confirm.</li>
+      <li><strong>Edit the key metrics card</strong> — Scroll down to the metrics grid — boxes for Video views, Total play time, Average watch time, Watched full video %, and New followers. Tap the bold number in each box to edit it. Tap the smaller text underneath to edit the subtitle.</li>
+      <li><strong>Reshape the "Views Over time graph</strong> — The blue line chart has invisible drag points along it. Tap and drag any part of the line up or down to reshape the curve. Tap the date labels below the chart to rename them to your actual upload dates.
+On mobile, use your finger. On desktop, click and drag.</li>
+      <li><strong>Edit the Retention rate section</strong> — Tap the bold percentage (e.g. "22%") to change your average watch percentage. Tap "0:01" to update when most viewers dropped off. Drag the retention curve points to match your actual drop-off shape.</li>
+      <li><strong>Edit Traffic Sources</strong> — Each source (For You, Search, Other, etc.) has an editable label and percentage. Tap the source name to rename it. Tap the percentage on the right to change the value — the bar updates to match.</li>
+      <li><strong>Edit Search queries</strong> — Tap any search query text to rename it to your actual keywords. Tap the percentage next to it to update the bar automatically.
+    </ul>
+
+    <h3>Viewers Tab</h3>
+    <ol>
+      <li><strong>Edit totals view and growth</strong> — The large bold number is your total viewer count — tap to edit. Below it, tap the blue "+390" to change the growth figure compared to the previous day.</li>
+      <li><strong>Edit viewers types</strong> — Two split bars: New vs Returning viewers, and Non-followers vs Followers. Tap any percentage on either end to edit it. The bar width updates to match.</li>
+      <li><strong>Edit gender percentage</strong> — Tap the percentage next to "Male" or "Female" and type your value. The donut chart automatically updates its arc to reflect the new split.
+The "Other" row stays at 0% and is not editable.</li>
+      <li><strong>Edit age brackets</strong> — Each age group (18–24, 25–34, 35–44, 45–54, 55+) has an editable percentage on the right. Tap any and enter your real audience age breakdown.</li>
+      <li><strong>Edit locations</strong> — Tap any country name to rename it. Tap the percentage next to it to update the bar. Use the + Add country button to add new rows, or Remove last to delete the bottom row.
+
+Country names highlight in yellow when you're editing them.</li>
+    </ol>
+
+    <h3>Engagement Tabs</h3>
+    <ul>
+      <li><strong>Edit likes section</strong> — Tap the timestamp (e.g. "0:00") in the description text to update when most viewers liked your video.</li>
+      <li><strong>Reshape the likes graph</strong> — This graph has draggable points just like the views chart. Drag any point up or down to match your actual likes-over-time pattern.</li>
+      <li><strong>Edit the time labels</strong> — Below the graph, tap either time label to update them with your video's actual timestamps and peak engagement percentage.</li>
+    </ul>
+
+    <h3>Submission Tips</h3>
+    <ul>
+      <li>Make sure Tier 1 countries (US, UK, Canada, Australia) are at the top of your location list with the highest percentages. That's the first thing moderators check.</li>
+      <li>A realistic retention curve drops steeply in the first few seconds then flattens. A perfectly flat curve looks fake — use the drag tool to create a natural drop-off shape.</li>
+      <li>Always set the thumbnail before screenshotting. Submitting with the purple placeholder looks unfinished.</li>
+      <li>Double-check that your view count in the top stats bar matches the "Video views" metric card — they should always be the same number.</li>
+      <li>Record each tab (Overview, Viewers, Engagement) and send all three to the moderator or support chat.</li>
+    </ul>
+
+    <h3>Apk</h3>
+    <ul>
+      <li><a href="https://www.mediafire.com/file/dzht3gmurzu9llz/Tt_Stats.apk/file" target="_blank">Download TikTok Editor Tool APK</a></li>
+    </ul>
+  </section>
+
+
+
+  <section class="doc" id="youtube-writing">
+    <div class="doc-head">
+      <span class="eyebrow">06 — Tool</span>
+      <h2>Youtube Editor Tool</h2>
+      <p class="sub">A guide to using the analytics editor for optimizing video content.</p>
+    </div>
+
+    <h3>Guide</h3>
+    <p>Step-by-step guides for both the TikTok and YouTube Studio analytics editors — learn how to customize every number, graph, and label.</p>
+
+    <h3>WARNING</h3>
+    <p><strong>Do not share</strong> this tool to mass people. If moderator finds out this tool, they will take action.</p>
+    <p><strong>Ony use this tool</strong> when audience requirements did not reach. Do not fake your views.</p>
+    <p><strong>Fake Views</strong> = Banned in campaigns</p>
+
+    <h3>PRESENTATION MODE</h3>
+    <P>Edit first, then switch to Presentation Mode for screenshots
+There's a "Presentation mode: Off" button fixed at the top-right of the screen. While it's Off, all fields are editable and dashed underlines show where you can type. When you're done editing and ready to screenshot, click it to turn Presentation Mode On — this hides all edit indicators, the "Edit data" buttons, and the hint banner for a clean, realistic-looking screen.</P>
+
+    <h3>What this tool does</h3>
+    <ul>
+      <li><strong>Edit any number</strong> — Tap any stat — views, likes, followers, watch time — and type your real values directly.</li>
+      <li><strong>Draggleable Graphs</strong> — Drag chart points up or down to reshape your views, retention, and likes curves.</li>
+      <li><strong>"edit data" button</strong> — Each chart and list has an "Edit data" button for precise bulk editing via a text input.</li>
+      <li><strong>Presentation Mode</strong> — Hides all editing UI for a clean screenshot. Toggle it with the button (top-right) or press P.</li>
+    </ul>
+
+    <h3>Overview Tab (explore the tool to fully maximize it)</h3>
+    <ul>
+      <li><strong>Edit the headline</strong> — At the top it says "This Short has gotten 1,027 views since it was published." Click the number to change it to your actual view count.</li>
+      <li><strong>Edit video title and thumbnail</strong> — In the header bar at the top, click the italic video title text to rename it to your actual video title. Click the small green thumbnail square to upload your real video thumbnail image..</li>
+      <li><strong>Edit audience attention</strong> — Scroll down to the metrics grid — boxes for Video views, Total play time, Average watch time, Watched full video %, and New followers. Tap the bold number in each box to edit it. Tap the smaller text underneath to edit the subtitle.</li>
+      <li><strong>Edit realtime views</strong> — Click the large number to update your realtime view count. Click the hours value (e.g. "48") to change the time window. Use "Edit data" to set the shape of the realtime bar chart.</li>
+      <li><strong>Edit top traffic sources</strong> — Click "Edit data" on the traffic sources card. In the modal, each line is formatted as Label | Value. Edit the source names and numbers, one per line, then click Save.</li>
+      <li><strong>Note:</strong> — As much as possible do not show the realtime views data below when you are recording since its a little different to the real graph style.</li>
+    </ul>
+
+    <h3>Reach Tab</h3>
+    <ol>
+      <li><strong>Edit total views</strong> — Click the large bold number (e.g. "24.6K") to change it. Use "Edit data" to reshape the views-over-time line chart using comma-separated values.</li>
+      <li><strong>Edit how viewers find this video</strong> — Click "Edit data" on this card. Each line is Label | percentage. The color-coded segmented bar at the top will automatically update to reflect the new percentages.</li>
+      <li><strong>Edit youtube search terms</strong> — Click "Edit data" to open the modal. Format: Search term | percentage. Add or remove rows to match your actual search traffic data.Click "Edit data" to open the modal. Format: Search term | percentage. Add or remove rows to match your actual search traffic data.</li>
+      <li><strong>NOTE:</strong> — Always use this "|" as a divider</li>
+      
+
+    <h3>Engagement Tabs</h3>
+    <ol>
+      <li><strong>Metrics Carousel</strong> — Swipe through 4 cards: Engaged views, Unique viewers, Watch time (hours), and Average view duration. On each card — click the big number to edit the total, click "Edit data" to reshape the chart, and click the date range labels below the chart to update them.</li>
+      <li><strong>Edit stayed to watch / swiped away</strong> — This graph has draggable points just like the views chart. Drag any point up or down to match your actual likes-over-time pattern.</li>
+      <li><strong>Edit audience retention</strong> — Same as the Overview tab retention card. Click the time and percentage values to edit them. Drag the curve points to reshape the chart. Update start/end labels below the chart.</li>
+    </ol>
+
+    <h3>Audience Tab</h3>
+    <ol>
+      <li><strong>Unique viewer and subscriber count</strong> — Two swipeable cards. Edit the big number on each card by clicking it. Use "Edit data" to set the chart values. Update the date labels below each chart.</li>
+      <li><strong>Edit viewers also watch</strong> — This card shows other channels your audience watches. Click any channel title to rename it. Click the small meta text (views, watch time) to edit those values. Click the thumbnail square to upload a custom image. Use the + Add video button to add new rows, or the × button to remove one.
+        <br>
+The add/remove buttons are hidden in Presentation Mode — add your videos before switching modes.</li>
+      <li><strong>Edit device tyoes</strong>Click "Edit data". Format: Label | percentage (e.g. Mobile | 65.1). The colored segmented bar updates automatically. Each device type gets a distinct color.</li>
+      <li><strong>Edit Age, Gender, Top geographies</strong> — Each of these cards has an "Edit data" button. The format for all three is the same: Label | percentage, one per line. Edit them to match your real audience demographics.</li>
+      <li><strong>Edit Subtitle/CC languages & Watch time from subscribers</strong>Same "Edit data" workflow — Label | percentage, one per line. Update these to reflect your actual subtitle usage and subscriber watch time split.</li>
+      <li><strong>Using "Edit data" — quick reference</strong> — For charts (Views, Retention, Subscribers, etc.)
+Enter numbers separated by commas — one number per data point from left to right on the chart.
+Example: 0, 50, 300, 800, 1027, 1027</li>
+    </ol>
+
+    <h3>Submission Tips</h3>
+    <ul>
+      <li>Turn on Presentation Mode before taking any screenshots. This hides all the blue dashed edit indicators and "Edit data" buttons for a clean, realistic look.</li>
+      <li>In the Audience tab, make sure US, UK, Canada, and Australia have the highest percentages in the Top geographies list — that's what Tier 1 means and what campaigns check.</li>
+      <li>A realistic retention curve starts near 100% and gradually drops. Use the drag tool or "Edit data" with values like 100, 90, 80, 70, 60, 55, 50... for a natural-looking curve.</li>
+      <li>Keep your numbers consistent — if your Views card says 24.6K, make sure the headline on the Overview tab and the chart peak roughly match that number.</li>
+      <li>Records all 4 tabs and send them together. Moderators often cross-check numbers between tabs, so make sure they're consistent.</li>
+    </ul>
+
+    <h3>Apk</h3>
+    <ul>
+      <li><a href="https://www.mediafire.com/file/7klgjn20pnalsr5/Yt_Stats.apk/file target="_blank">Download TikTok Editor Tool APK</a></li>
+    </ul>
+  </section>
+
+  <section class="doc" id="doc-proxyvpn">
+    <div class="doc-head">
+      <span class="eyebrow">06 — Account Safety &amp; Tools</span>
+      <h2>iProxy + NordVPN<br>Safety Guide</h2>
+      <p class="sub">How to use mobile proxies and a VPN correctly to reach US audiences, manage multiple accounts safely, and stay off the platform's ban radar.</p>
+    </div>
+
+    <div class="callout">
+      <span class="tag">The core idea</span>
+      <p>Platforms are getting smarter every day. The goal isn't to trick them — it's to be so careful they can't tell you're using tools at all. Patience plus consistency wins every time.</p>
+    </div>
+
+    <h3>What these tools actually do</h3>
+    <table>
+      <tr><th>Tool</th><th>Role</th></tr>
+      <tr><td><strong>iProxy</strong> — Mobile Proxy</td><td>Turns an old Android phone into a real mobile proxy. Uses the phone's actual SIM card data, so platforms see a genuine mobile user, not a bot or a datacenter IP.</td></tr>
+      <tr><td><strong>NordVPN</strong> — Location Masker</td><td>Changes visible location to the US (or anywhere). Best used for research and downloading trending content — not for posting. Platforms can detect it.</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="tag">Critical distinction</span>
+      <p>iProxy is for posting and account management. NordVPN is for research and content discovery only. Never use both at the same time — that's an instant red flag to every major platform.</p>
+    </div>
+
+    <h3>Before you start — clean your digital footprint</h3>
+    <div class="callout warn">
+      <span class="tag">Super important</span>
+      <p>Skipping this step is the #1 reason accounts get flagged immediately. Do all of this before touching either tool.</p>
+    </div>
+    <h4>Step 1 — Clear everything</h4>
+    <ul>
+      <li>Log out of all accounts on every browser and app</li>
+      <li>Clear browser cookies and cache completely</li>
+      <li>Clear app data on the phone for every social app</li>
+      <li>Switch to incognito / private mode going forward</li>
+    </ul>
+    <h4>Step 2 — Device preparation</h4>
+    <ul>
+      <li>Use a clean device if possible — older Android phones work great</li>
+      <li>If reusing a device, do a full factory reset first</li>
+      <li>Remove any automation or scheduler apps</li>
+      <li>Turn off location services initially</li>
+    </ul>
+    <h4>Step 3 — Account health check</h4>
+    <ul>
+      <li>Wait 24–48 hours if the account has been posting heavily recently</li>
+      <li>Confirm there are no active violations or warnings on any account</li>
+      <li>Screenshot current stats now, for comparison later</li>
+    </ul>
+
+    <h3>Setting up iProxy (the right way)</h3>
+    <div class="callout">
+      <span class="tag">Why iProxy works</span>
+      <p>It uses the phone's actual mobile network. Each account gets its own mobile IP that changes naturally, just like a real phone would. Platforms trust mobile IPs far more than any datacenter proxy.</p>
+    </div>
+    <table>
+      <tr><th>IP type</th><th>Rotation</th><th>Account limit</th></tr>
+      <tr><td>Real mobile — actual SIM network, not a rented datacenter</td><td>Natural — changes the way a real phone's connection does</td><td>1 per proxy — never share one IP between accounts</td></tr>
+    </table>
+    <div class="step-grid">
+      <div class="step"><div class="idx">1</div><div class="body"><h4>Prepare the phone</h4><p>Any Android 6.0 or newer works. Insert a SIM with an active mobile data plan, and connect to mobile data — not WiFi.</p></div></div>
+      <div class="step"><div class="idx">2</div><div class="body"><h4>Install iProxy</h4><p>Sign up at iproxy.online, install the app from the Play Store, grant all requested permissions, and let it install its OpenVPN component — required for it to work.</p></div></div>
+      <div class="step"><div class="idx">3</div><div class="body"><h4>Configure the proxy</h4><p>Create a new proxy in the dashboard, name it descriptively (e.g. "TikTok Account 1"), set rotation to every 5–10 minutes, and save the credentials for later.</p></div></div>
+    </div>
+
+    <h3>Setting up NordVPN (for research only)</h3>
+    <div class="callout">
+      <span class="tag">Remember</span>
+      <p>NordVPN is a research tool, not a posting tool. Use it to see what's trending in the US, download clips, and study competitor strategies — then disconnect completely before doing anything with an actual account.</p>
+    </div>
+    <div class="step-grid">
+      <div class="step"><div class="idx">1</div><div class="body"><h4>Get the right VPN</h4><p>Purchase NordVPN rather than a free service — free VPNs have shared, blacklisted IPs that get flagged instantly.</p></div></div>
+      <div class="step"><div class="idx">2</div><div class="body"><h4>Configure settings</h4><p>Protocol set to NordLynx (fastest, most stable), kill switch on (cuts internet if the VPN drops), auto-connect off (full manual control).</p></div></div>
+      <div class="step"><div class="idx">3</div><div class="body"><h4>Choose the right US server</h4><p>See the table below for which city fits which kind of research.</p></div></div>
+    </div>
+    <table>
+      <tr><th>Server location</th><th>Best for</th></tr>
+      <tr><td>Los Angeles</td><td>Entertainment, sports, pop culture content</td></tr>
+      <tr><td>New York</td><td>News, trending topics, fast-moving content</td></tr>
+      <tr><td>Chicago</td><td>General research, balanced across all niches</td></tr>
+    </table>
+
+    <h3>The safe workflow — follow this exactly</h3>
+    <div class="callout warn">
+      <span class="tag">Do not skip or rearrange</span>
+      <p>The sequence exists for a reason — each phase uses a different tool, and mixing them up is what gets accounts banned.</p>
+    </div>
+    <h4>Phase 1 — Research (NordVPN)</h4>
+    <ul>
+      <li>Connect to a US NordVPN server</li>
+      <li>Browse trending content and note what's performing well</li>
+      <li>Save ideas and download clips worth editing</li>
+      <li>Disconnect the VPN completely when done</li>
+      <li>Wait 5 full minutes before moving to the next phase</li>
+    </ul>
+    <h4>Phase 2 — Content creation (no proxy or VPN)</h4>
+    <ul>
+      <li>Edit clips completely offline</li>
+      <li>Add captions, music, and effects</li>
+      <li>Prepare all posts and queue everything up</li>
+      <li>Don't open any social apps during this phase</li>
+    </ul>
+    <h4>Phase 3 — Upload (iProxy only)</h4>
+    <ul>
+      <li>Connect through iProxy</li>
+      <li>Open the app and log in — act natural, don't rush</li>
+      <li>Scroll the feed for 2–3 minutes first</li>
+      <li>Upload the content</li>
+      <li>Engage naturally — like, comment, respond — for 15–30 minutes</li>
+      <li>Log out properly when done</li>
+    </ul>
+
+    <h3>Platform-specific safety rules</h3>
+
+    <h4>TikTok — highest risk</h4>
+    <p><strong>Before using a proxy:</strong> clear the TikTok cache completely, log out for a minimum of 24 hours, and remove and reinstall the app fresh.</p>
+    <p><strong>Safe practices:</strong> only ever use iProxy, never a VPN, for posting; one account per proxy, no exceptions; never switch locations on the same account; post at consistent times daily; cap it at 3 posts a day.</p>
+
+    <h4>YouTube — medium risk</h4>
+    <p><strong>Before using a VPN:</strong> use a completely different browser or profile, clear the YouTube watch history, and sign out of the Google account first.</p>
+    <p><strong>Safe practices:</strong> VPN is fine for watching and research only; always upload on the normal connection, no proxy or VPN; never change the country setting on the account; keep the upload location consistent.</p>
+
+    <h4>Instagram — medium risk</h4>
+    <p><strong>Before using a proxy:</strong> clear all Instagram app data, remove any linked accounts from the profile, and turn off activity status.</p>
+    <p><strong>Safe practices:</strong> use iProxy for all posting activity; no automation tools of any kind; all engagement done manually.</p>
+
+    <h3>Critical warnings — never do these</h3>
+    <div class="callout warn">
+      <span class="tag">Instant red flags</span>
+      <ul style="margin-bottom:0">
+        <li>Never use a VPN and a proxy at the same time — an instant red flag on every platform</li>
+        <li>Never switch countries daily — frequent apparent-location changes trigger restriction algorithms</li>
+        <li>Never log into multiple accounts from the same IP — every account on that IP gets banned together</li>
+        <li>Never use free or cheap proxies — those IPs are usually already blacklisted</li>
+        <li>Never post immediately after setup — jumping straight to posting looks unnatural and flags the account</li>
+      </ul>
+    </div>
+
+    <h3>Always do these</h3>
+    <ul>
+      <li>Wait a full 24 hours after setup before the first post</li>
+      <li>Act human — scroll, like, and watch content before uploading</li>
+      <li>Build slowly — start with one post a day before scaling</li>
+      <li>Keep a completely consistent posting schedule — same times every day</li>
+      <li>Document everything with screenshots — it saves accounts later</li>
+    </ul>
+
+    <h3>Troubleshooting guide</h3>
+    <h4>"Suspicious activity" warning</h4>
+    <p>Stop all activity on the account immediately, wait 48–72 hours without touching it, return with completely normal browsing behavior, and don't change any settings — leave everything exactly as it was.</p>
+    <h4>Low or zero views</h4>
+    <p>Check for a shadowban using a different account to search for the content, verify the iProxy connection is active and working, double-check the posting time against the target audience's peak hours, and honestly evaluate whether the content itself needs work.</p>
+    <h4>Can't log in</h4>
+    <p>Don't try logging in repeatedly — it makes things worse. Clear the app data completely, wait a full 24 hours, and attempt the next login with iProxy already connected.</p>
+
+    <h3>Your safe timeline</h3>
+    <h4>Day 1 — Preparation (setup only, no posting)</h4>
+    <ul>
+      <li>Clear all cookies and cache on every browser</li>
+      <li>Log out of all accounts</li>
+      <li>Set up iProxy on a clean Android phone</li>
+      <li>Set up NordVPN on the computer</li>
+      <li>Do not post anything today</li>
+    </ul>
+    <h4>Day 2 — Testing (browse only, still no posting)</h4>
+    <ul>
+      <li>Connect through iProxy</li>
+      <li>Create one new account if needed</li>
+      <li>Browse and watch for 30 minutes, acting like a real user</li>
+      <li>Log out properly when done</li>
+    </ul>
+    <h4>Days 3–7 — Slow start (one post per day maximum)</h4>
+    <ul>
+      <li>Post exactly one piece of content per day</li>
+      <li>Engage naturally for 30 minutes after each post</li>
+      <li>Post at the same time every day to build the pattern</li>
+      <li>Build a natural account history before scaling</li>
+    </ul>
+    <h4>Week 2 — Scale carefully (expand gradually)</h4>
+    <ul>
+      <li>Increase to a maximum of 2 posts per day</li>
+      <li>Only add a second account once a separate proxy is ready for it</li>
+      <li>Maintain the consistent posting schedule — never skip or drastically change it</li>
+      <li>Monitor for warnings or unusual drops in reach</li>
+    </ul>
+
+    <div class="callout">
+      <span class="tag">Final checklist — before every upload session</span>
+      <ul style="margin-bottom:0">
+        <li>NordVPN is fully disconnected — confirmed off, not just idle</li>
+        <li>iProxy is connected and showing a stable mobile IP</li>
+        <li>App cache was cleared within the last 24 hours</li>
+        <li>Scrolled and browsed for 2–3 minutes before uploading</li>
+        <li>Content was edited offline — no watermarks, no competitor logos</li>
+        <li>Posting within the consistent time window</li>
+        <li>Ready to engage naturally for 15–30 minutes after posting</li>
+      </ul>
+    </div>
+
+    <div class="divider-tear">· · ·</div>
+    <p style="font-style:italic; color:var(--ink-dim);">Most people fail because they rush. Take the time, follow the steps in order, and it builds into something that actually lasts. Be smart. Be consistent.</p>
+  </section>
+
+  <footer class="end">— end of playbook —</footer>
+
+</main>
+
+<script>
+(function(){
+  const sidenav = document.getElementById('sidenav');
+  const navToggle = document.getElementById('navToggle');
+  const navScrim = document.getElementById('navScrim');
+  const body = document.body;
+
+  function openNav(){ sidenav.classList.add('open'); body.classList.add('nav-open'); }
+  function closeNav(){ sidenav.classList.remove('open'); body.classList.remove('nav-open'); }
+
+  navToggle.addEventListener('click', function(){
+    sidenav.classList.contains('open') ? closeNav() : openNav();
+  });
+  navScrim.addEventListener('click', closeNav);
+
+  document.querySelectorAll('.tab').forEach(function(a){
+    a.addEventListener('click', function(){
+      if (window.innerWidth <= 760) closeNav();
+    });
+  });
+
+  // Scrollspy
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  const targets = tabs.map(function(t){ return document.getElementById(t.dataset.target); }).filter(Boolean);
+
+  const observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      const id = entry.target.id;
+      const tab = tabs.find(function(t){ return t.dataset.target === id; });
+      if (!tab) return;
+      if (entry.isIntersecting){
+        tabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+
+  targets.forEach(function(t){ observer.observe(t); });
+
+  // Font size control
+  const root = document.documentElement;
+  let size = 17;
+  function applySize(){ root.style.setProperty('--reading-size', size + 'px'); }
+  document.getElementById('fontUp').addEventListener('click', function(){
+    size = Math.min(size + 1, 22);
+    applySize();
+  });
+  document.getElementById('fontDown').addEventListener('click', function(){
+    size = Math.max(size - 1, 14);
+    applySize();
+  });
+
+  // Theme toggle
+  const modeDark = document.getElementById('modeDark');
+  const modeLight = document.getElementById('modeLight');
+  function setTheme(mode){
+    root.setAttribute('data-theme', mode);
+    modeDark.classList.toggle('on', mode === 'dark');
+    modeLight.classList.toggle('on', mode === 'light');
+  }
+  modeDark.addEventListener('click', function(){ setTheme('dark'); });
+  modeLight.addEventListener('click', function(){ setTheme('light'); });
+})();
+</script>
+
+</body>
+</html>
